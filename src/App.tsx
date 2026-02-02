@@ -1,9 +1,17 @@
+import { QueryClientProvider } from "@tanstack/react-query"
+import { AppRouters } from "./routers"
+import { queryClient } from "./config/react-query"
+import { AuthProvider } from "./context/auth-provider"
+
 export function App() {
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="font-medium">Hello World</div>
-    </div>
+    <AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AppRouters />
+    </QueryClientProvider>
+    </AuthProvider>
   )
 }
 
 export default App
+
