@@ -1,7 +1,6 @@
 import axios from "axios";
 
 import { storageKeys } from "@/config/storage-keys";
-import { logout } from "../auth";
 
 export const identityClient = axios.create({
   baseURL: import.meta.env.VITE_AUTH_API,
@@ -38,7 +37,6 @@ for (const api of apis) {
         const isLoginAttempt = error.config?.url?.includes('/login');
         if (error.response.status === 401 && !isLoginAttempt && !isLoggingOut) {
           isLoggingOut = true;
-          logout();
         }
       }
       return Promise.reject(error);

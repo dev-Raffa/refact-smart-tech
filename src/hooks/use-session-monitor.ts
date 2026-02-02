@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { jwtDecode } from "jwt-decode";
-import { logout } from "../libs/auth";
 import type { JwtTokenPayload } from "../types/decode-token";
 
 const FIVE_MINUTES_IN_MS = 5 * 60 * 1000;
@@ -34,7 +33,6 @@ export function useSessionMonitor(token: string | null) {
       const timeUntilExpiration = expirationTime - currentTime;
 
       if (timeUntilExpiration <= 0) {
-        logout(true, true);
         return;
       }
 
@@ -48,9 +46,6 @@ export function useSessionMonitor(token: string | null) {
           duration: 10000,
         });
 
-        logoutTimeoutRef.current = setTimeout(() => {
-          logout(true, true);
-        }, timeUntilExpiration);
       } else if (timeUntilWarning > 0) {
         warningTimeoutRef.current = setTimeout(() => {
           if (!warningShownRef.current) {
@@ -61,14 +56,9 @@ export function useSessionMonitor(token: string | null) {
             });
           }
         }, timeUntilWarning);
-
-        logoutTimeoutRef.current = setTimeout(() => {
-          logout(true, true);
-        }, timeUntilExpiration);
       }
     } catch (error) {
       console.error("Erro ao decodificar token:", error);
-      logout(true, true);
     }
 
     return () => {
