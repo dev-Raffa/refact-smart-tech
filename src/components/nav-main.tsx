@@ -4,6 +4,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
 } from "@/components/ui/sidebar"
+import { NavLink } from "react-router"
 //import { NavLink } from "react-router"
 //import { RestrictedLink } from "./shared/restricted-link"
 
@@ -25,10 +26,10 @@ export function NavMain({
     <SidebarGroup>
       <SidebarMenu>
         {items.map((item) => (
-          <a
+          <NavLink
             key={`${item.title}-${item.url}`}
-            href={item.url}
-            className={`relative py-1.5 cursor-pointer transition-colors duration-20  flex items-center overflow-hidden outline-none select-none text-foreground`}
+            to={item.url}
+            className={({ isActive }) => `relative h-full  py-1.5 cursor-pointer transition-colors duration-20  flex items-center overflow-hidden outline-none select-none text-foreground hover:text-red-500 ${isActive ? ' text-red-500' : ''}`}
           >
             <SidebarMenuButton tooltip={item.title}>
               {item.icon && (
@@ -39,7 +40,7 @@ export function NavMain({
               <span className="ml-2 text-sm font-medium leading-5 whitespace-nowrap tracking-wide">{item.title}</span>
               <span className="sr-only">{item.title}</span>
             </SidebarMenuButton>
-          </a>
+          </NavLink>
         ))}
       </SidebarMenu>
     </SidebarGroup>
